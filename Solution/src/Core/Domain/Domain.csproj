@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup Label="Package">
+		<TargetFramework>net7.0</TargetFramework>
+		<AssemblyName>CoreSharp.Templates.Blazor.Domain</AssemblyName>
+		<RootNamespace>CoreSharp.Templates.Blazor.Domain</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup Label="Package references">
+		<PackageReference Include="CoreSharp" Version="7.4.0" />
+		<PackageReference Include="CoreSharp.EntityFramework" Version="7.5.0" />
+	</ItemGroup>
+
+</Project>

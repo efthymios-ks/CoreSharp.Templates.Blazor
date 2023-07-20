@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup Label="Package">
+		<PackageType>Template</PackageType>
+		<PackageId>CoreSharp.Templates.Blazor.Server</PackageId>
+		<TargetFramework>net7.0</TargetFramework>
+		<PackageVersion>7.4.0</PackageVersion>
+		<PackageReleaseNotes>-Code clean-up and refactor.</PackageReleaseNotes>
+		<Title>Blazor Server Clean Architecture Solution</Title>
+		<Authors>Efthymios Koktsidis</Authors>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/efthymios-ks/CoreSharp.Templates.Blazor</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/efthymios-ks/CoreSharp.Templates.Blazor</RepositoryUrl>
+		<PackageIcon>icon.png</PackageIcon>
+		<IncludeContentInPack>true</IncludeContentInPack>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<ContentTargetFolders>content</ContentTargetFolders>
+		<NoWarn>$(NoWarn);NU5128</NoWarn>
+		<RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+	</PropertyGroup>
+	
+	<ItemGroup Label="Linking">
+		<None Include="icon.png"
+		      Pack="true"
+		      PackagePath="\"/>
+		<Content Include="Solution\**\*"
+		         Exclude="Solution\**\.vs\**;Solution\**\bin\**;Solution\**\obj\**"/>
+		<Compile Remove="**\*"/>
+	</ItemGroup>
+</Project>

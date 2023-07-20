@@ -1,0 +1,18 @@
+﻿@inherits LayoutComponentBase
+@using WebApp.Features.MainLayout.HeaderLayout
+@using WebApp.Features.MainLayout.SidebarLayout
+@using WebApp.Features.MainLayout.ContentLayout
+@using WebApp.Features.MainLayout.FooterLayout
+
+<div id="app-layout"
+     class="page d-md-flex flex-column min-vh-100">
+    <Sidebar />
+
+    <Header />
+
+    <Content>
+        @Body
+    </Content>
+
+    <Footer />
+</div>

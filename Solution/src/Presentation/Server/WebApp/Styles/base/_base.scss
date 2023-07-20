@@ -1,0 +1,25 @@
+﻿@import '../abstracts/_root.scss';
+
+//Global set
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: $color-app-background;
+}
+
+html {
+    /*
+        Use font-size to scale the whole 
+        application by using rem unit for sizing. 
+    */
+    font-size: 105%;
+}
