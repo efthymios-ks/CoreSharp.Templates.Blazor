@@ -1,0 +1,42 @@
+﻿@inherits AppComponentBase
+
+<AppAuthorizedView>
+    <Authorized>
+        <div class="d-flex flex-row align-items-center gap-1">
+            @* Display name *@
+            <div>
+                <a href="@MyClaimsPath"
+                   class="btn btn-outline-success">
+                    @Username
+                </a>
+            </div>
+
+            @* Profile image *@
+            @if (ShouldDisplayUserPhoto)
+            {
+                <div>
+                    <img src="@UserPhotoUrl"
+                         class="user-info__photo">
+                </div>
+            }
+
+            @* Logout *@
+            <div>
+                <button type="button"
+                        class="btn btn-outline-danger"
+                        @onclick="OnLogoutClicked">
+                    @Localizer["Logout"]
+                </button>
+            </div>
+        </div>
+    </Authorized>
+
+    <NotAuthorized>
+        @* Login *@
+        <button type="button"
+                class="btn btn-outline-success"
+                @onclick="OnLoginClicked">
+            @Localizer["Login"]
+        </button>
+    </NotAuthorized>
+</AppAuthorizedView>

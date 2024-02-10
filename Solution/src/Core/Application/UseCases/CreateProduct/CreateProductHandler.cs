@@ -1,8 +1,8 @@
-﻿using AutoMapper;
+﻿using Application.Messaging;
+using Application.Messaging.Interfaces;
+using AutoMapper;
 using CoreSharp.Exceptions;
-using CoreSharp.Templates.Blazor.Application.Dto;
-using CoreSharp.Templates.Blazor.Application.Messaging.Interfaces;
-using CoreSharp.Templates.Blazor.Application.Messaging.Results;
+using CoreSharp.Templates.Blazor.Application.Dtos.Products;
 using CoreSharp.Templates.Blazor.Domain.Entities;
 using CoreSharp.Templates.Blazor.Domain.Repositories;
 using System;
@@ -25,7 +25,7 @@ internal sealed class CreateProductHandler : ICommandHandler<CreateProduct, Prod
     }
 
     // Methods
-    public async Task<Result<ProductDto>> Handle(CreateProduct request, CancellationToken cancellationToken)
+    public async Task<IResult<ProductDto>> Handle(CreateProduct request, CancellationToken cancellationToken)
     {
         var productRepository = _unitOfWork.ProductRepository;
         var productdto = request.ProductDto;
@@ -42,6 +42,7 @@ internal sealed class CreateProductHandler : ICommandHandler<CreateProduct, Prod
         await _unitOfWork.CommitAsync(cancellationToken);
 
         // Return 
-        return _mapper.Map<ProductDto>(createdProduct);
+        var createdProductDto = _mapper.Map<ProductDto>(createdProduct);
+        return Results.Ok(createdProductDto);
     }
 }

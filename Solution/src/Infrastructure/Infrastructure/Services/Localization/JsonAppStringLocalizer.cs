@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace CoreSharp.Templates.Blazor.Infrastructure.Services.Localization;
 
@@ -31,13 +32,16 @@ internal sealed class JsonAppStringLocalizer : IAppStringLocalizer
     // Methods 
     private string GetLocalizedString(string key, params object[] arguments)
     {
-        TryCacheDictionary();
+        TryCacheDictionaryAsync()
+            .GetAwaiter()
+            .GetResult();
 
-        return _source.TryGetValue(key, out var value) ?
-            string.Format(value, arguments) : key;
+        return _source.TryGetValue(key, out var value)
+            ? string.Format(value, arguments)
+            : key;
     }
 
-    private void TryCacheDictionary()
+    private async Task TryCacheDictionaryAsync()
     {
         if (!_source.IsEmpty)
         {
@@ -48,11 +52,7 @@ internal sealed class JsonAppStringLocalizer : IAppStringLocalizer
         using var fileStream = new FileStream(_fileName, FileMode.Open, FileAccess.Read);
 
         // Deserialize file into dictionary 
-        var dictionary = JsonSerializer
-            .DeserializeAsync<Dictionary<string, string>>(fileStream)
-            .AsTask()
-            .GetAwaiter()
-            .GetResult();
+        var dictionary = await JsonSerializer.DeserializeAsync<Dictionary<string, string>>(fileStream);
 
         // Update dictionary 
         foreach (var pair in dictionary)

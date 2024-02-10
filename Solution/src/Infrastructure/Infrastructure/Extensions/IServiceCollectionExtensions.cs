@@ -26,7 +26,7 @@ public static class IServiceCollectionExtensions
         ArgumentNullException.ThrowIfNull(serviceCollection);
         ArgumentNullException.ThrowIfNull(configuration);
 
-        serviceCollection.AddAppCurrentIdentityService();
+        serviceCollection.AddAppUserContext();
         serviceCollection.AddAppDbContext(configuration);
         serviceCollection.AddAppUnitOfWork();
         serviceCollection.AddAppLogger();
@@ -36,8 +36,8 @@ public static class IServiceCollectionExtensions
         return serviceCollection;
     }
 
-    private static IServiceCollection AddAppCurrentIdentityService(this IServiceCollection serviceCollection)
-        => serviceCollection.AddScoped<ICurrentIdentityService, CurrentIdentityService>();
+    private static IServiceCollection AddAppUserContext(this IServiceCollection serviceCollection)
+        => serviceCollection.AddScoped<IUserContext, UserContext>();
 
     private static IServiceCollection AddAppDbContext(this IServiceCollection serviceCollection, IConfiguration configuration)
     {
@@ -83,17 +83,17 @@ public static class IServiceCollectionExtensions
     {
         serviceCollection.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-        serviceCollection.AddOptions<ConnectionStringsOptions>()
-                         .BindConfiguration(ConnectionStringsOptions.SectionName)
-                         .ValidateFluently()
-                         .ValidateOnStart();
+        serviceCollection
+            .AddOptions<ConnectionStringsOptions>()
+            .BindConfiguration(ConnectionStringsOptions.SectionName)
+            .ValidateFluently()
+            .ValidateOnStart();
 
         return serviceCollection;
     }
 
     private static IServiceCollection AddAppLocalization(this IServiceCollection serviceCollection)
     {
-        serviceCollection.AddMemoryCache();
         serviceCollection.AddScoped(typeof(IAppStringLocalizer<>), typeof(JsonAppStringLocalizer<>));
         serviceCollection.AddSingleton<IAppStringLocalizerFactory, JsonAppStringLocalizerFactory>();
 

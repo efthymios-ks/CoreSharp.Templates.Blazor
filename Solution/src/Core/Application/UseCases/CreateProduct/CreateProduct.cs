@@ -1,5 +1,5 @@
-﻿using CoreSharp.Templates.Blazor.Application.Dto;
-using CoreSharp.Templates.Blazor.Application.Messaging.Interfaces;
+﻿using Application.Messaging.Interfaces;
+using CoreSharp.Templates.Blazor.Application.Dtos.Products;
 
 namespace CoreSharp.Templates.Blazor.Application.UseCases.CreateProduct;
 

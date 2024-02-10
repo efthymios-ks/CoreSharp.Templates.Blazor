@@ -1,7 +1,7 @@
-﻿using AutoMapper;
-using CoreSharp.Templates.Blazor.Application.Dto;
-using CoreSharp.Templates.Blazor.Application.Messaging.Interfaces;
-using CoreSharp.Templates.Blazor.Application.Messaging.Results;
+﻿using Application.Messaging;
+using Application.Messaging.Interfaces;
+using AutoMapper;
+using CoreSharp.Templates.Blazor.Application.Dtos.Products;
 using CoreSharp.Templates.Blazor.Domain.Exceptions;
 using CoreSharp.Templates.Blazor.Domain.Repositories;
 using System.Threading;
@@ -23,12 +23,13 @@ internal sealed class GetProductByIdHandler : IQueryHandler<GetProductById, Prod
     }
 
     // Methods
-    public async Task<Result<ProductDto>> Handle(GetProductById request, CancellationToken cancellationToken)
+    public async Task<IResult<ProductDto>> Handle(GetProductById request, CancellationToken cancellationToken)
     {
         var productRepository = _unitOfWork.ProductRepository;
         var productId = request.ProductId;
         var product = await productRepository.GetAsync(productId, request.Navigation, cancellationToken);
         _ = product ?? throw new ProductNotFoundException(productId);
-        return _mapper.Map<ProductDto>(product);
+        var productDto = _mapper.Map<ProductDto>(product);
+        return Results.Ok(productDto);
     }
 }

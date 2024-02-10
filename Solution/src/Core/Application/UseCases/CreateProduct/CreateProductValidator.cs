@@ -13,7 +13,8 @@ public sealed class CreateProductValidator : AppValidatorBase<CreateProduct>
     private void AddRules()
     {
         RuleFor(createProduct => createProduct.ProductDto)
-            .NotNull();
+            .NotNull()
+            .WithMessage(GetLocalizedString("UnknownError"));
 
         RuleFor(createProduct => createProduct.ProductDto.Name)
             .NotEmpty();

@@ -28,7 +28,7 @@ internal sealed class FluentValidationOptions<TOptions> : IValidateOptions<TOpti
         // Null name is used to configure all named options. 
         if (_name != null && _name != name)
         {
-            // Ignored if not validating this instance. 
+            // Ignore if not validating this instance. 
             return ValidateOptionsResult.Skip;
         }
 

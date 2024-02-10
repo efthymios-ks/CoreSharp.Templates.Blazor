@@ -1,6 +1,6 @@
-﻿using CoreSharp.Templates.Blazor.Application.Dto;
+﻿using Application.Messaging.Interfaces;
+using CoreSharp.Templates.Blazor.Application.Dtos.Products;
 using CoreSharp.Templates.Blazor.Application.Messaging.Abstracts;
-using CoreSharp.Templates.Blazor.Application.Messaging.Interfaces;
 using CoreSharp.Templates.Blazor.Domain.Entities;
 using System;
 

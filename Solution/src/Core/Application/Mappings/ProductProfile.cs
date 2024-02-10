@@ -1,4 +1,4 @@
-﻿using CoreSharp.Templates.Blazor.Application.Dto;
+﻿using CoreSharp.Templates.Blazor.Application.Dtos.Products;
 using CoreSharp.Templates.Blazor.Application.Mappings.Abstracts;
 using CoreSharp.Templates.Blazor.Domain.Entities;
 

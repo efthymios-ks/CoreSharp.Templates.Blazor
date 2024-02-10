@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.Internal;
+using CoreSharp.Templates.Blazor.Application.Services;
+using CoreSharp.Templates.Blazor.Application.Services.Interfaces;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +20,10 @@ public static class IServiceCollectionExtensions
 
         serviceCollection.AddAppAutoMapper();
         serviceCollection.AddAppMediatR();
+        serviceCollection.AddAppCacheStorage();
+
+        // User 
+        serviceCollection.AddSingleton<ICloneService, CloneService>();
 
         return serviceCollection;
     }
@@ -57,11 +63,14 @@ public static class IServiceCollectionExtensions
                           return false;
                       }
 
-                      return type
-                        .GetInterfaces()
-                        .Any(interfaceType =>
-                            interfaceType.IsGenericType
-                                && interfaceType.GetGenericTypeDefinition() == typeof(IPipelineBehavior<,>));
+                      return Array.Exists(type.GetInterfaces(), interfaceType =>
+                        interfaceType.IsGenericType
+                        && interfaceType.GetGenericTypeDefinition() == typeof(IPipelineBehavior<,>));
                   });
     }
+
+    private static IServiceCollection AddAppCacheStorage(this IServiceCollection serviceCollection)
+        => serviceCollection
+            .AddMemoryCache()
+            .AddSingleton<ICacheStorage, InMemoryCacheStorage>();
 }

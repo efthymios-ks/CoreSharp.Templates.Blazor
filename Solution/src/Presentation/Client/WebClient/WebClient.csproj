@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+	<PropertyGroup Label="Package">
+		<TargetFramework>net7.0</TargetFramework>
+		<AssemblyName>CoreSharp.Templates.Blazor.WebClient</AssemblyName>
+	</PropertyGroup>
+
+	<ItemGroup Label="Package references">
+		<PackageReference Include="CoreSharp.Blazor" Version="7.2.0" />
+		<PackageReference Include="CoreSharp.Http.FluentApi" Version="7.3.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="7.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.0" PrivateAssets="all" />
+		<PackageReference Include="LibSassBuilder" Version="3.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+		<PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="7.3.1" />
+	</ItemGroup>
+
+	<ItemGroup Label="Project references">
+		<ProjectReference Include="..\..\..\Core\Application.Dtos\Application.Dtos.csproj" />
+		<ProjectReference Include="..\..\..\Core\Application.Messaging\Application.Messaging.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Update="wwwroot\appsettings.Development.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup Label="Localization">
+		<EmbeddedResource Include="Localization\*" />
+	</ItemGroup>
+
+</Project>

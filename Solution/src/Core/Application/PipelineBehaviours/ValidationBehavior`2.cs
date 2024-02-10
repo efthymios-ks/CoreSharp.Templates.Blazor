@@ -1,5 +1,5 @@
-﻿using CoreSharp.Templates.Blazor.Application.Messaging.Results;
-using CoreSharp.Templates.Blazor.Application.Messaging.Results.Interfaces;
+﻿using Application.Messaging;
+using Application.Messaging.Interfaces;
 using FluentValidation;
 using MediatR;
 using System;
@@ -39,12 +39,13 @@ internal sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavio
         if (validationErrors.Any())
         {
             // Handle Request<> with reflection.
-            // Generic constraints didn't work out. 
-            if (typeof(TResponse).IsGenericType
-                && typeof(TResponse).GetGenericTypeDefinition() == typeof(Result<>))
+            var responseType = typeof(TResponse);
+            if (ImplementsResult(responseType))
             {
+                var innerType = responseType.GetGenericArguments()[0];
+                var resultType = typeof(Result<>).MakeGenericType(innerType);
                 var errorMessage = validationErrors.First().ErrorMessage;
-                var resultAsObject = Activator.CreateInstance(typeof(TResponse), default, errorMessage);
+                var resultAsObject = Activator.CreateInstance(resultType, default, errorMessage);
                 return resultAsObject as TResponse;
             }
 
@@ -53,5 +54,19 @@ internal sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavio
         }
 
         return await next();
+    }
+
+    private static bool ImplementsResult(Type type)
+    {
+        if (TypePredicate(type))
+        {
+            return true;
+        }
+
+        var interfaces = type.GetInterfaces();
+        return Array.Exists(interfaces, TypePredicate);
+
+        static bool TypePredicate(Type type)
+            => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IResult<>);
     }
 }

@@ -16,9 +16,9 @@ internal static class IMapperExtensions
         ArgumentNullException.ThrowIfNull(page);
 
         return new(page.PageNumber,
-                   page.PageSize,
-                   page.TotalItems,
-                   page.TotalPages,
-                   mapper.Map<IEnumerable<TOut>>(page.Items));
+            page.PageSize,
+            page.TotalItems,
+            page.TotalPages,
+            mapper.Map<IEnumerable<TOut>>(page.Items));
     }
 }

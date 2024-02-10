@@ -1,0 +1,6 @@
+﻿namespace WebClient.Services.Interfaces.Localization;
+
+public interface IAppStringLocalizer<out TResource> : IAppStringLocalizer
+    where TResource : class
+{
+}

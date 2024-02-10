@@ -1,0 +1,14 @@
+﻿@inherits AppPageBase
+
+@page "/authentication/{action}"
+
+@attribute [AllowAnonymous]
+
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+
+<RemoteAuthenticatorView Action="@Action"
+                         OnLogInSucceeded="async () => await LoginSucceededCallbackAsync()">
+    <LogOut>
+        <LogoutView />
+    </LogOut>
+</RemoteAuthenticatorView>

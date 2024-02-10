@@ -1,4 +1,4 @@
-# Remove the line below if you want to inherit .editorconfig settings from higher directories
+﻿# Remove the line below if you want to inherit .editorconfig settings from higher directories
 root = true
 
 # C# files
@@ -231,6 +231,7 @@ dotnet_diagnostic.CS8603.severity = none
 dotnet_diagnostic.IDE0010.severity = none
 dotnet_diagnostic.IDE0058.severity = none
 dotnet_diagnostic.IDE0072.severity = none
+dotnet_diagnostic.IDE0290.severity = none
 dotnet_diagnostic.RCS1123.severity = none
 dotnet_diagnostic.RCS1194.severity = none
 dotnet_diagnostic.RCS1235.severity = none

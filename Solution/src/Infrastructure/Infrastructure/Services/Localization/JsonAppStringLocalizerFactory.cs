@@ -1,11 +1,12 @@
-﻿using CoreSharp.Templates.Blazor.Application.Services.Interfaces.Localization;
-using Microsoft.Extensions.Caching.Memory;
+﻿using CoreSharp.Templates.Blazor.Application.Services.Interfaces;
+using CoreSharp.Templates.Blazor.Application.Services.Interfaces.Localization;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CoreSharp.Templates.Blazor.Infrastructure.Services.Localization;
 
@@ -13,11 +14,11 @@ public sealed class JsonAppStringLocalizerFactory : IAppStringLocalizerFactory
 {
     // Fields 
     private static readonly TimeSpan _cacheDuration = TimeSpan.FromMinutes(15);
-    private readonly IMemoryCache _memoryCache;
+    private readonly ICacheStorage _cacheStorage;
 
     // Constructors 
-    public JsonAppStringLocalizerFactory(IMemoryCache memoryCache)
-        => _memoryCache = memoryCache;
+    public JsonAppStringLocalizerFactory(ICacheStorage cacheStorage)
+        => _cacheStorage = cacheStorage;
 
     // Properties 
     private static string ContentPath
@@ -38,15 +39,20 @@ public sealed class JsonAppStringLocalizerFactory : IAppStringLocalizerFactory
         var resourceFilePath = lookupFiles.FirstOrDefault(File.Exists)
             ?? throw new FileNotFoundException($"No resource file found for '{resourceType.FullName}'.");
 
-        return GetOrCreateCachedLocalizer(resourceFilePath);
+        return GetCachedLocalizerAsync(resourceFilePath)
+            .GetAwaiter()
+            .GetResult();
     }
 
-    private IAppStringLocalizer GetOrCreateCachedLocalizer(string fileName)
+    private async Task<IAppStringLocalizer> GetCachedLocalizerAsync(string fileName)
     {
-        if (!_memoryCache.TryGetValue(fileName, out IAppStringLocalizer localizer))
+        var localizerCacheKey = GetLocalizerCacheKey(fileName);
+        var (found, localizer) = await _cacheStorage.GetAsync<IAppStringLocalizer>(localizerCacheKey);
+
+        if (!found)
         {
             localizer = new JsonAppStringLocalizer(fileName);
-            localizer = _memoryCache.Set(fileName, localizer, _cacheDuration);
+            await _cacheStorage.SetAsync(localizerCacheKey, localizer, _cacheDuration);
         }
 
         return localizer;
@@ -128,4 +134,7 @@ public sealed class JsonAppStringLocalizerFactory : IAppStringLocalizerFactory
 
         return left[^commonLength..];
     }
+
+    private static string GetLocalizerCacheKey(string fileName)
+        => $"{nameof(JsonAppStringLocalizerFactory)}_{fileName}";
 }

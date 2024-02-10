@@ -1,0 +1,26 @@
+﻿@inherits AppComponentBase
+@* Navigation menu toggler *@
+<button class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#@NavigationMenuId"
+        aria-controls="@NavigationMenuId"
+        aria-expanded="false"
+        aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+</button>
+
+@* Navigation menu *@
+<div id="@NavigationMenuId"
+     class="collapse navbar-collapse">
+    <div class="navbar-nav">
+        @* Home *@
+        <AppNavLink Text="HomePage"
+                    RedirectTo="@PageRoutes.Home" />
+
+        @* User info *@
+        <div class="nav-link d-sm-none">
+            <UserInfo />
+        </div>
+    </div>
+</div>
